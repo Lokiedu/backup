@@ -24,7 +24,7 @@ aws_region  = ENV['BACKUP_AWS_REGION']
 aws_key     = ENV['BACKUP_AWS_ACCESS_KEY_ID']
 aws_secret  = ENV['BACKUP_AWS_SECRET_ACCESS_KEY']
 
-keep_time   = ENV['BACKUP_DAYS_TO_KEEP'].to_int * 60 * 60 * 24
+keep_time   = ENV['BACKUP_DAYS_TO_KEEP'].to_i * 60 * 60 * 24
 
 time = Time.now.strftime("%Y%m%d.%H%M%S")  
 filename = "postgres.#{time}.sql.bz2"  
