@@ -45,8 +45,9 @@ object.upload_file(Pathname.new(filepath))
 
 if object.exists?  
   FileUtils.rm(filepath)
+  puts "#{filename} is backed up to s3 bucket"
 else  
-  raise "S3 Object wasn't created"
+  raise "#{filename} failed to upload to s3 bucket"
 end
 
 objects = bucket.objects.select do |object|  
