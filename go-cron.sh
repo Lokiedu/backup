@@ -13,4 +13,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+# Check configuration variables
+
+: "${BACKUP_DAYS_TO_KEEP:?Variable must be set and non-empty}"
+: "${BACKUP_SCHEDULE:?Variable must be set and non-empty}"
+: "${BACKUP_POSTGRES_PASSWORD:?Variable must be set and non-empty}"
+: "${BACKUP_S3_BUCKET:?Variable must be set and non-empty}"
+: "${BACKUP_S3_DIR:?Variable must be set and non-empty}"
+: "${BACKUP_AWS_REGION:?Variable must be set and non-empty}"
+: "${BACKUP_AWS_ACCESS_KEY_ID:?Variable must be set and non-empty}"
+: "${BACKUP_AWS_SECRET_ACCESS_KEY:?Variable must be set and non-empty}"
+[ -z "$DB_PORT_5432_TCP_ADDR" ] && echo "ERROR: Link to database container is not defined" && exit 1
+
+# Run the cron
+
 exec go-cron -s "$BACKUP_SCHEDULE" -- /usr/local/bin/pgbackup.sh
