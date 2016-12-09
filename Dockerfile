@@ -3,17 +3,22 @@ FROM ruby
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+COPY pgdg.list /etc/apt/sources.list.d/pgdg.list
+
+# Postgres client
+RUN set -x \
+    apt-get install wget ca-certificates && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt-get update && apt-get install -y postgresql-client-9.5 && rm -rf /var/lib/apt/lists/*
+
 # S3 backup script
 
 COPY Gemfile /usr/src/app/Gemfile
 COPY Gemfile.lock /usr/src/app/Gemfile.lock
+
 RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 COPY s3backup.rb /usr/local/bin/
-
-# Postgres client
-RUN set -x \
-	&& apt-get update && apt-get install -y postgresql-client-9.5 && rm -rf /var/lib/apt/lists/*
 
 COPY pgbackup.sh /usr/local/bin/
 
