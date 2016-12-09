@@ -13,7 +13,7 @@ COPY s3backup.rb /usr/local/bin/
 
 # Postgres client
 RUN set -x \
-	&& apt-get update && apt-get install -y postgresql-client-9.4 && rm -rf /var/lib/apt/lists/*
+	&& apt-get update && apt-get install -y postgresql-client-9.5 && rm -rf /var/lib/apt/lists/*
 
 COPY pgbackup.sh /usr/local/bin/
 
